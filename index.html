@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d1b">
+  <meta name="description" content="Study Core - 学習時間・学習量・正答率を記録する勉強アプリ">
+  <title>Study Core — 学習ダッシュボード</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">SC</div><div><strong>STUDY CORE</strong><small>LEARNING SYSTEM</small></div></div>
+      <nav>
+        <button class="nav-item active" data-view="dashboard"><span>◈</span> ダッシュボード</button>
+        <button class="nav-item" data-view="study"><span>◎</span> 学習する</button>
+        <button class="nav-item" data-view="history"><span>▤</span> 学習履歴</button>
+        <button class="nav-item" data-view="settings"><span>⚙</span> データ・設定</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="status-dot"></div> LOCAL MODE <span>v1.0</span></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><div><p class="eyebrow">YOUR PERSONAL LEARNING HUB</p><h1 id="page-title">ダッシュボード</h1></div><div class="today-pill" id="today-label"></div></header>
+
+      <section class="view active" id="view-dashboard">
+        <div class="welcome-card">
+          <div class="welcome-copy"><p class="eyebrow">KEEP MOVING FORWARD</p><h2>小さな積み重ねが、<br><span>大きな力になる。</span></h2><p>今日の学習を記録して、昨日の自分を超えよう。</p><button class="primary-btn" data-go="study">学習を始める <span>→</span></button></div>
+          <div class="orb-wrap"><div class="orb"><div class="orb-core"></div></div><div class="orb-ring ring-one"></div><div class="orb-ring ring-two"></div><div class="orb-label">FOCUS<br><b>ACTIVE</b></div></div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>今日の学習時間</span><span class="stat-icon cyan">◷</span></div><strong id="today-time">0<span>分</span></strong><small id="today-time-sub">今日の合計</small></article>
+          <article class="stat-card"><div class="stat-top"><span>学習量</span><span class="stat-icon purple">▤</span></div><strong id="today-amount">0</strong><small id="today-amount-sub">問題・ページ</small></article>
+          <article class="stat-card"><div class="stat-top"><span>正答率</span><span class="stat-icon green">⌁</span></div><strong id="accuracy">—</strong><small id="accuracy-sub">回答データなし</small></article>
+          <article class="stat-card"><div class="stat-top"><span>連続学習</span><span class="stat-icon orange">✦</span></div><strong id="streak">0<span>日</span></strong><small>継続が力になる</small></article>
+        </div>
+
+        <div class="content-grid">
+          <article class="panel wide-panel"><div class="panel-heading"><div><p class="eyebrow">LAST 7 DAYS</p><h3>学習時間の推移</h3></div><span class="panel-unit">分 / 日</span></div><div id="weekly-chart" class="chart" aria-label="過去7日間の学習時間"></div></article>
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">SUBJECT BALANCE</p><h3>教科別の学習量</h3></div></div><div id="subject-chart" class="subject-chart"><p class="empty">学習を記録すると表示されます。</p></div></article>
+        </div>
+        <article class="panel recent-panel"><div class="panel-heading"><div><p class="eyebrow">RECENT ACTIVITY</p><h3>最近の学習</h3></div><button class="text-btn" data-go="history">すべて見る →</button></div><div id="recent-list" class="recent-list"><p class="empty">まだ学習記録がありません。最初の学習を始めよう！</p></div></article>
+      </section>
+
+      <section class="view" id="view-study">
+        <div class="study-layout">
+          <article class="panel timer-panel">
+            <p class="eyebrow">FOCUS SESSION</p><h2>学習タイマー</h2>
+            <div class="timer-ring"><div><span id="timer-display">00:00:00</span><small id="timer-status">READY TO FOCUS</small></div></div>
+            <div class="timer-controls"><button class="primary-btn" id="timer-start">▶ スタート</button><button class="secondary-btn" id="timer-pause" disabled>一時停止</button><button class="secondary-btn" id="timer-reset">リセット</button></div>
+            <p class="hint">タイマーはこのページを開いている間、学習時間を計測します。終了時に記録を保存できます。</p>
+          </article>
+          <article class="panel log-panel">
+            <p class="eyebrow">SESSION RECORD</p><h2>学習内容を記録</h2>
+            <form id="study-form">
+              <label>教科・分野<select id="subject" required></select></label>
+              <label>学習内容<input id="topic" maxlength="100" placeholder="例：二次関数、英単語、簿記の仕訳"></label>
+              <div class="form-row"><label>学習時間（分）<input id="minutes" type="number" min="0" max="1440" value="25" required></label><label>問題数<input id="questions" type="number" min="0" max="100000" value="0"></label></div>
+              <div class="form-row"><label>ページ数<input id="pages" type="number" min="0" max="100000" value="0"></label><label>正解数<input id="correct" type="number" min="0" max="100000" value="0"></label></div>
+              <label>回答した問題数（正答率計算用）<input id="answered" type="number" min="0" max="100000" value="0"></label>
+              <p class="form-note">正解数は回答した問題数以下にしてください。問題を解いていない場合は両方0でOK。</p>
+              <button class="primary-btn full-btn" type="submit">学習記録を保存 <span>＋</span></button>
+            </form>
+          </article>
+        </div>
+
+        <article class="panel practice-panel"><div class="panel-heading"><div><p class="eyebrow">PRACTICE ZONE</p><h3>ミニ演習</h3><p class="subtle">内蔵のサンプル問題で学習を試せます。大学・資格の専門問題は、自分の教材に合わせて記録してください。</p></div></div>
+          <div class="practice-controls"><label>演習分野<select id="quiz-subject"></select></label><button class="secondary-btn" id="new-question">別の問題</button></div>
+          <div id="quiz-card" class="quiz-card"><p class="eyebrow">QUICK CHECK</p><h3 id="quiz-question">読み込み中…</h3><div id="quiz-options" class="quiz-options"></div><p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p></div>
+        </article>
+      </section>
+
+      <section class="view" id="view-history">
+        <article class="panel"><div class="panel-heading"><div><p class="eyebrow">YOUR PROGRESS</p><h3>学習履歴</h3></div><button class="secondary-btn" id="export-csv">CSVを書き出す</button></div><div id="history-list" class="history-list"><p class="empty">学習記録がここに表示されます。</p></div></article>
+      </section>
+
+      <section class="view" id="view-settings">
+        <article class="panel settings-panel"><p class="eyebrow">DATA MANAGEMENT</p><h2>データ・設定</h2><p class="subtle">このバージョンはデータを使用中のブラウザ内に保存します。同じ端末でもブラウザのデータ消去などで失われる場合があります。</p>
+          <div class="settings-actions"><button class="secondary-btn" id="export-json">バックアップを保存（JSON）</button><label class="secondary-btn file-label">バックアップを読み込む<input id="import-json" type="file" accept="application/json"></label><button class="danger-btn" id="clear-data">すべての学習記録を削除</button></div>
+          <div class="notice"><strong>プライバシー</strong><p>記録は端末内のブラウザに保存され、サーバーには送信されません。別端末との自動同期はありません。</p></div>
+          <div class="notice"><strong>このバージョンでできること</strong><p>学習時間・問題数・ページ数・正答率・教科別グラフ・連続学習日数・経験値、簡易演習、CSV/JSON書き出し。</p><p>自由なAI解説、クラウド同期、通知、全範囲の問題バンクは未実装です。AI連携は後から追加できます。</p></div>
+        </article>
+      </section>
+      <footer>STUDY CORE <span>BUILD YOUR KNOWLEDGE, ONE DAY AT A TIME.</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

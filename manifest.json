@@ -1,0 +1,11 @@
+{
+  "name": "Study Core",
+  "short_name": "Study Core",
+  "description": "学習時間・学習量・正答率を記録する勉強アプリ",
+  "lang": "ja",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080d1b",
+  "theme_color": "#080d1b",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
